@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Random Thang</title>
+		<link rel="stylesheet" type="text/css" href="index.css">
+	</head>
+	<body>
+		<div id="box">
+			<img id="img" src="thinking.jpg">
+			
+			<div id="intro">	
+				<p id="thoughts">I don't know what to write!</p>
+
+				<input type="text" id="word"></input>
+
+				<input type="button" id="btn" value="Next" onclick="change();"></input>
+
+			</div>
+			<div id="ending">
+				<div id="output"></div>
+				<img id="output_img" src="">
+			</div>
+			
+		</div>
+
+		<script type="text/javascript">
+			var clicked = 0;
+			var listSentences = [
+				"My name is",
+				"My hobby is",
+				"I am a",
+				"My current mood is",
+				"My goal in life is"
+			];
+			var listAnswers = [];
+			var listImg = [
+				"bird.jpg",
+				"cat.jpg",
+				"decor.jpg",
+				"rose.jpg",
+				"fish.jpg"
+			];
+
+			function change(){
+				if(clicked == 0){
+					document.getElementById("thoughts").innerHTML="Can you help me?";
+				}
+				else if(clicked == 1){
+					document.getElementById("thoughts").innerHTML="Just finish the sentence.";
+				}
+				else if(clicked == 2){
+					document.getElementById("thoughts").innerHTML = listSentences[clicked-2];
+				}
+				else if(clicked == 6){
+					document.getElementById("btn").value="Done";
+					text();
+				}
+				else if(clicked == 7){
+					listAnswers.push(document.getElementById("word").value);
+					changebkgd();
+					showAll();
+				}
+				else if(clicked <= 5){
+					text();
+				}
+
+				document.getElementById("word").value = "";
+				clicked++;
+			}
+
+			function text(){
+				document.getElementById("thoughts").innerHTML = listSentences[clicked-2];
+				listAnswers.push(document.getElementById("word").value);
+				console.log(listAnswers);
+			}
+
+			function changebkgd(){
+				document.getElementById("box").style.backgroundColor = "black";
+				document.getElementById("intro").style.display = 'none';
+				document.getElementById("img").style.display = 'none';
+				document.getElementById("output").style.color = "white";
+				var imgStr = getRandomImage();
+				document.getElementById("output_img").src = imgStr.toString();
+			}
+
+			function getRandomImage(){
+				var num = Math.floor(Math.random()*listImg.length)
+				console.log(listImg[num]);				
+				return listImg[num];
+
+			}
+
+			function showAll(){
+				var paragraph = document.getElementById("output");
+				for(var index=0; index<listAnswers.length;index++){
+					var content = document.createTextNode(listSentences[index] + " " + listAnswers[index]+ ". ");
+					paragraph.appendChild(content);
+					var linebreak = document.createElement('br');
+					paragraph.appendChild(linebreak);
+				}
+			}
+		</script>
+	</body>
+</html>
